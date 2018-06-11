@@ -1,0 +1,80 @@
+Data scrubbing guide: 
+(Note that these are advice, not the ground truth for how to do things.)
+
+Check with person giving you the data about known inconsistencies in the data. Ask several times. This is especially the case if the study is multi-center, since
+            then there is almost a guarantee there will be inconsistencies.
+          
+  Example of problems which with PROOF study
+Some dicoms had fields (which were pages long) which made it possible to match scans by fields. These had to then be handled by renaming Patients Comments by
+           Directory.
+ 
+Walkthrough of data cleaning:
+
+Python data cleaning tools: 
+    * dicom_rename_patient_comment_hardcode.py
+    * Dicom_rename_patient_comment.py  
+    * parse_dicoms.py  
+    * sendDicomScript
+    * get_dicom_info.py (general version of parse_dicoms.py, also can
+            output csv-file)
+ 
+CTP server:
+    CTP (with example configuration file for PROOF) 
+    Anonymization look up table file (lookup.properties) 
+
+Anonymization tool:
+    DCM4CHEE (dcm4che-2.0.29)
+
+Python tools are stored in bitbucket:
+    https://bitbucket.org/bigr_erasmusmc/data-cleaning-python-scripts
+
+Here are also example config.xml and lookup.properties file 
+
+CTP 
+
+CTP server is for now stored in mhansson’s homefolder. Very important file is lookup.properties stored in (for example) CTP/ctpConfig/PROOF/
+
+Remember to place the CTP on a large drive as some folders will become quite large (size depending on the number of dicoms you want to process, but certainly in the 100 G range)
+
+Start by deleting old big folders. Simplest by calling du -sh *
+Example of big folders: CTP/ctpData,CTP/logs, CTP/roots/BasicFileStorageService/storage
+
+Start CTP by calling 
+>> java -jar Launcher.jar  
+
+Sending dicoms through CTP can be very slow. Click Configuration tab:
+Select DicomExportServel. The fields throttle and interval will control how fast files
+are sent from the CTP. Throttle:100 and interval:2000 will send files very quickly
+from the CTP. In XNAT this can result in duplicate entries, either through CONFLICT
+or ERROR. It is important to check the reason for conflict or error in XNAT. If the scan in pre-archive is not contained in the archive this indicates a duplicate, and the scan may be archived. In the majority of cases this will not result in any problems.
+
+Example lookup.properties file:
+
+ptid/12345678=1
+ptid/23456789=2
+
+It is thus a text file with one entry per row. Above mean that patientid 12345678 is assigned number 1 and  patientid 23456789 is assigned number 2. PatientID you can
+Find by loading dicom toolkit [module add dcmtk/3.6.0]. Get the patientID from your dicom:
+>> dcmdump 0000001 | grep “PatientID” 
+Here 0000001 is a dcm file.
+
+
+
+Example workflow to clean and upload data:
+
+Parse database and create csv file by using parse_dicoms.py 
+           >> python parse_dicoms.py > example.csv &
+      2) Use csv file to rename PatientComments field in the dicoms in the 
+          database (using dicom_rename_patient_comment.py). For the cases
+          Where there are dicom fields which make the dicom impossible to parse
+          (for example a single field is several pages long containing a multitude of 
+           Special symbols), then hardcode the PatientComments field using 
+           dicom_rename_patient_comment_hardcode.py.
+       3) Use sendDicomScript to send files to CTP. To use this it is required to first
+           Install DCM4CHEE and CTP_clean.
+ 
+Needed tools for the future:
+
+Integrity checking tools. Checking that it is possible to open all dicoms.
+Set up repo for (somewhat) generic python tools for scrubbing data.
+

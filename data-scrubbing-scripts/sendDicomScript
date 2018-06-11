@@ -1,0 +1,19 @@
+#!/bin/bash                                                                                                                                         
+
+AET="XNAT"
+HOST="bigr-app003"
+#HOST="10.191.20.185"
+PORT="1050"
+
+ARCHIVE="/scratch/mhansson/data/PROOF/PROOF"
+DCM4CHE_HOME="/home/mhansson/apps/dcm4che-2.0.29"
+SUBJECT_LIST="/home/mhansson/proof_upload_scripts/remaining_subjects.txt"
+
+while read -r d; do
+    if $DCM4CHE_HOME/bin/dcmsnd $AET@$HOST:$PORT $ARCHIVE/$d; then
+        echo "$d" >> success.log
+    else
+        echo "$d" >> failure.log
+    fi  
+    sleep 60
+done < "$SUBJECT_LIST"

@@ -19,6 +19,10 @@
 # Cross-validate a multi-atlas appearance segmentation algorithm.
 # This script uses appearance models trained in train_appearance_model_CV.py
 
+# This script depends on the python package fastr, see https://fastr.readthedocs.io/en/stable/
+
+# See README.md in this folder for flow diagram of the pipeline
+
 import fastr
 from sklearn import cross_validation
 

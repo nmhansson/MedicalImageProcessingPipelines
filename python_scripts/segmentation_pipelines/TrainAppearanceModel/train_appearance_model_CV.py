@@ -20,6 +20,10 @@
 # Training appearance model classifiers for each cross-validation fold
 # in multiatlas_app_segmentation_CV.py
 
+# This script depends on the python package fastr, see https://fastr.readthedocs.io/en/stable/
+
+# See README.md in this folder for flow diagram of the pipeline
+
 import fastr
 from sklearn import cross_validation
 

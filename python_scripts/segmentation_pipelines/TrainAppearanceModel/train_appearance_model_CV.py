@@ -60,14 +60,14 @@ def main():
     # starting fold
     foldnr = 1
 
-    # atlas MRIs
+    # names of atlas MRIs
     CV_ims = ['image9003406_20060322','image9007827_20051219','image9200458_20051202','image9352437_20050411',
               'image9403165_20060316','image9496443_20050811','image9567704_20050505','image9047800_20060306',
               'image9056363_20051010','image9068453_20060131','image9085290_20051103','image9102858_20060210',
               'image9279291_20051025','image9352883_20051123','image9357137_20051212','image9357383_20050912',
               'image9369649_20060224','image9587749_20050707']
 
-    # atlas label volumes
+    # names of atlas label volumes
     CV_label = ['groundtruth9003406_20060322','groundtruth9007827_20051219','groundtruth9200458_20051202','groundtruth9352437_20050411',
                 'groundtruth9403165_20060316','groundtruth9496443_20050811','groundtruth9567704_20050505','groundtruth9047800_20060306',
                 'groundtruth9056363_20051010','groundtruth9068453_20060131','groundtruth9085290_20051103','groundtruth9102858_20060210',

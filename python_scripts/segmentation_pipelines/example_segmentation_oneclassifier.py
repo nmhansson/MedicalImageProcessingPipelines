@@ -14,6 +14,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+# Multiatlas appearance segmentation model. Outputs: segmentations +
+# QIB (Quantitative Imaging Biomarker) datatype storing information about
+# segmentation for storage in XNAT database.
+#
+# This script depends on the python package fastr, see https://fastr.readthedocs.io/en/stable/
 
 import time
 from itertools import *

@@ -74,7 +74,6 @@ def main():
         session_id = network.create_source('String',id_='session_ids')
 
         source_targetROI = network.create_source(datatype=fastr.typelist['ITKImageFile'], id_='target_ROI',sourcegroup='target')
-
         source_atlasImages = network.create_source('NiftiImageFileCompressed', id_='atlas_img', sourcegroup='atlas')
         source_atlasLabels = network.create_source('NiftiImageFileCompressed', id_='atlas_labels', sourcegroup='atlas')
         source_atlasROI = network.create_source(datatype=fastr.typelist['ITKImageFile'], id_='atlas_ROI',sourcegroup='atlas')
